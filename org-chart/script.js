@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const verticalPadding = 100;
 
     try {
-        const response = await fetch('data.json');
+        const response = await fetch(`data.json?t=${new Date().getTime()}`);
         const rawData = await response.json();
 
         // 1. Convert flat JSON to a tree-like structure and build map
@@ -109,26 +109,31 @@ document.addEventListener('DOMContentLoaded', async () => {
             group.appendChild(text);
             gNodes.appendChild(group);
 
-            // Render lines to children
-            node.children.forEach(child => {
-                const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
-
-                // Rectilinear path (elbow line)
+            if (node.children.length > 0) {
+                // Determine a fixed midY for all children of this parent
+                // We use half-way between parent bottom and the nearest child top
                 const startX = node.x;
                 const startY = node.y + nodeRadius;
-                const endX = child.x;
-                const endY = child.y - nodeRadius;
-                const midY = (startY + endY) / 2;
 
-                // Move to start, line to midY, horizontal to childX, line to endY
-                const d = `M ${startX} ${startY} L ${startX} ${midY} L ${endX} ${midY} L ${endX} ${endY}`;
+                // Find the Y of the level immediately below parent
+                const minChildY = Math.min(...node.children.map(c => c.y));
+                const midY = (startY + (minChildY - nodeRadius)) / 2;
 
-                line.setAttribute("d", d);
-                line.setAttribute("class", "connector-line");
-                gLines.appendChild(line);
+                node.children.forEach(child => {
+                    const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                    const endX = child.x;
+                    const endY = child.y - nodeRadius;
 
-                render(child);
-            });
+                    // Move to start, line down to midY, horizontal to childX, line down to child
+                    const d = `M ${startX} ${startY} L ${startX} ${midY} L ${endX} ${midY} L ${endX} ${endY}`;
+
+                    line.setAttribute("d", d);
+                    line.setAttribute("class", "connector-line");
+                    gLines.appendChild(line);
+
+                    render(child);
+                });
+            }
         }
 
         render(root);
