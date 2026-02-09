@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const svg = document.getElementById('chart-svg');
     const container = document.getElementById('chart-container');
-    
+
     // Config values
     const nodeRadius = 50;
     const levelSpacing = 160;
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         const response = await fetch('data.json');
         const rawData = await response.json();
-        
+
         // 1. Convert flat JSON to a tree-like structure and build map
         const nodes = {};
         let root = null;
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 node.subtreeWidth = horizontalSpacing;
                 return node.subtreeWidth;
             }
-            
+
             let width = 0;
             node.children.forEach(child => {
                 width += calculateSubtreeWidth(child);
@@ -58,9 +58,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             return node.subtreeWidth;
         }
 
-        function setPositions(node, startX, currentY) {
-            node.y = currentY;
-            
+        function setPositions(node, startX) {
+            // Y position is now strictly based on the level defined in JSON
+            node.y = verticalPadding + (node.level - 1) * levelSpacing;
+
             if (node.children.length === 0) {
                 node.x = startX + node.subtreeWidth / 2;
                 return;
@@ -68,7 +69,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             let currentX = startX;
             node.children.forEach(child => {
-                setPositions(child, currentX, currentY + levelSpacing);
+                setPositions(child, currentX);
                 currentX += child.subtreeWidth;
             });
 
@@ -79,7 +80,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         calculateSubtreeWidth(root);
-        setPositions(root, 0, verticalPadding);
+        setPositions(root, 0);
 
         // 3. Render
         const gLines = document.createElementNS("http://www.w3.org/2000/svg", "g");
@@ -91,13 +92,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Render node
             const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
             group.setAttribute("class", "node-group");
-            
+
             const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
             circle.setAttribute("cx", node.x);
             circle.setAttribute("cy", node.y);
             circle.setAttribute("r", nodeRadius);
             circle.setAttribute("class", "node-circle");
-            
+
             const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
             text.setAttribute("x", node.x);
             text.setAttribute("y", node.y);
@@ -111,7 +112,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Render lines to children
             node.children.forEach(child => {
                 const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                
+
                 // Rectilinear path (elbow line)
                 const startX = node.x;
                 const startY = node.y + nodeRadius;
@@ -121,7 +122,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 // Move to start, line to midY, horizontal to childX, line to endY
                 const d = `M ${startX} ${startY} L ${startX} ${midY} L ${endX} ${midY} L ${endX} ${endY}`;
-                
+
                 line.setAttribute("d", d);
                 line.setAttribute("class", "connector-line");
                 gLines.appendChild(line);
