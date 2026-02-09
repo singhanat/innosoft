@@ -1,8 +1,13 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const svg = document.getElementById('chart-svg');
     const diagramList = document.getElementById('diagram-list');
+    const compareBase = document.getElementById('compare-base');
+    const compareTarget = document.getElementById('compare-target');
+    const btnCompare = document.getElementById('btn-compare');
+    const btnClear = document.getElementById('btn-clear-compare');
+    const legend = document.getElementById('compare-legend');
 
-    // Config values
+    // Config
     const nodeRadius = 50;
     const levelSpacing = 160;
     const horizontalSpacing = 160;
@@ -13,19 +18,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Initialize
     async function init() {
         try {
-            // 1. Load the list of diagrams
             const resp = await fetch(`diagrams.json?t=${new Date().getTime()}`);
             diagrams = await resp.json();
 
-            // 2. Build the sidebar menu
             renderSidebar();
+            populateSelects();
 
-            // 3. Load the first diagram by default
             if (diagrams.length > 0) {
                 loadDiagram(diagrams[0].file, diagrams[0].id);
             }
         } catch (error) {
-            console.error("Error initializing app:", error);
+            console.error("Init error:", error);
         }
     }
 
@@ -36,48 +39,98 @@ document.addEventListener('DOMContentLoaded', async () => {
             li.className = 'diagram-item';
             li.id = `item-${diag.id}`;
             li.textContent = diag.name;
-            li.onclick = () => loadDiagram(diag.file, diag.id);
+            li.onclick = () => {
+                loadDiagram(diag.file, diag.id);
+                btnClear.click(); // Reset compare view
+            };
             diagramList.appendChild(li);
         });
     }
 
+    function populateSelects() {
+        const options = diagrams.map(d => `<option value="${d.file}">${d.name}</option>`).join('');
+        compareBase.innerHTML = options;
+        compareTarget.innerHTML = options;
+        if (diagrams.length > 1) compareTarget.selectedIndex = 1;
+    }
+
+    async function fetchData(fileName) {
+        const response = await fetch(`${fileName}?t=${new Date().getTime()}`);
+        return await response.json();
+    }
+
     async function loadDiagram(fileName, id) {
-        // Update active state in UI
         document.querySelectorAll('.diagram-item').forEach(el => el.classList.remove('active'));
         const activeItem = document.getElementById(`item-${id}`);
         if (activeItem) activeItem.classList.add('active');
 
-        // Clear existing SVG
-        svg.innerHTML = '';
-
-        try {
-            const response = await fetch(`${fileName}?t=${new Date().getTime()}`);
-            const rawData = await response.json();
-
-            renderChart(rawData);
-        } catch (error) {
-            console.error(`Error loading diagram ${fileName}:`, error);
-        }
+        const data = await fetchData(fileName);
+        renderChart(data);
     }
 
-    function renderChart(rawData) {
-        // 1. Convert flat JSON to a tree-like structure and build map
+    btnCompare.onclick = async () => {
+        const baseData = await fetchData(compareBase.value);
+        const targetData = await fetchData(compareTarget.value);
+
+        const diffData = calculateAdministrativeDiff(baseData, targetData);
+        renderChart(diffData, true);
+
+        btnClear.style.display = 'block';
+        legend.style.display = 'flex';
+    };
+
+    btnClear.onclick = () => {
+        const activeDiag = diagrams.find(d => document.getElementById(`item-${d.id}`).classList.contains('active'));
+        if (activeDiag) loadDiagram(activeDiag.file, activeDiag.id);
+        btnClear.style.display = 'none';
+        legend.style.display = 'none';
+    };
+
+    function calculateAdministrativeDiff(base, target) {
+        const result = JSON.parse(JSON.stringify(target));
+
+        Object.keys(result).forEach(name => {
+            const oldValue = base[name];
+            const newValue = target[name];
+
+            if (!oldValue) {
+                result[name].diff = 'new';
+            } else {
+                // Administrative focus logic:
+                // 1. Level up (smaller number) => Promoted
+                // 2. Level down (larger number) => Demoted
+                // 3. Same level but boss changed => Moved
+
+                if (newValue.level < oldValue.level) {
+                    result[name].diff = 'promoted';
+                } else if (newValue.level > oldValue.level) {
+                    result[name].diff = 'demoted';
+                } else if (newValue.under !== oldValue.under) {
+                    result[name].diff = 'moved';
+                }
+            }
+        });
+
+        return result;
+    }
+
+    function renderChart(rawData, isDiff = false) {
+        svg.innerHTML = '';
         const nodes = {};
         let root = null;
 
-        // Initialize node objects
         Object.entries(rawData).forEach(([name, info]) => {
             nodes[name] = {
                 name,
                 level: info.level,
                 under: info.under,
+                diff: info.diff,
                 children: [],
                 x: 0,
                 y: 0
             };
         });
 
-        // Link parent to children
         Object.values(nodes).forEach(node => {
             if (node.under && nodes[node.under]) {
                 nodes[node.under].children.push(node);
@@ -88,46 +141,40 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (!root) return;
 
-        // 2. Calculate positions
-        function calculateSubtreeWidth(node) {
+        function calculateWidth(node) {
             if (node.children.length === 0) {
                 node.subtreeWidth = horizontalSpacing;
                 return node.subtreeWidth;
             }
             let width = 0;
-            node.children.forEach(child => {
-                width += calculateSubtreeWidth(child);
-            });
+            node.children.forEach(c => width += calculateWidth(c));
             node.subtreeWidth = Math.max(width, horizontalSpacing);
             return node.subtreeWidth;
         }
 
-        function setPositions(node, startX) {
+        function setPos(node, startX) {
             node.y = verticalPadding + (node.level - 1) * levelSpacing;
             if (node.children.length === 0) {
                 node.x = startX + node.subtreeWidth / 2;
                 return;
             }
-            let currentX = startX;
-            node.children.forEach(child => {
-                setPositions(child, currentX);
-                currentX += child.subtreeWidth;
+            let curX = startX;
+            node.children.forEach(c => {
+                setPos(c, curX);
+                curX += c.subtreeWidth;
             });
-            const firstChild = node.children[0];
-            const lastChild = node.children[node.children.length - 1];
-            node.x = (firstChild.x + lastChild.x) / 2;
+            node.x = (node.children[0].x + node.children[node.children.length - 1].x) / 2;
         }
 
-        calculateSubtreeWidth(root);
-        setPositions(root, 0);
+        calculateWidth(root);
+        setPos(root, 0);
 
-        // 3. Render
         const gLines = document.createElementNS("http://www.w3.org/2000/svg", "g");
         const gNodes = document.createElementNS("http://www.w3.org/2000/svg", "g");
         svg.appendChild(gLines);
         svg.appendChild(gNodes);
 
-        function drawNode(node) {
+        function draw(node) {
             const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
             group.setAttribute("class", "node-group");
 
@@ -135,7 +182,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             circle.setAttribute("cx", node.x);
             circle.setAttribute("cy", node.y);
             circle.setAttribute("r", nodeRadius);
-            circle.setAttribute("class", "node-circle");
+
+            let nodeClass = "node-circle";
+            if (isDiff && node.diff) nodeClass += ` node-${node.diff}`;
+            circle.setAttribute("class", nodeClass);
 
             const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
             text.setAttribute("x", node.x);
@@ -157,16 +207,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
                     const d = `M ${startX} ${startY} L ${startX} ${midY} L ${child.x} ${midY} L ${child.x} ${child.y - nodeRadius}`;
                     line.setAttribute("d", d);
-                    line.setAttribute("class", "connector-line");
+
+                    let lineClass = "connector-line";
+                    if (isDiff && (child.diff || node.diff)) {
+                        lineClass += " line-highlight";
+                    }
+                    line.setAttribute("class", lineClass);
                     gLines.appendChild(line);
-                    drawNode(child);
+                    draw(child);
                 });
             }
         }
 
-        drawNode(root);
+        draw(root);
 
-        // Auto-fit using viewBox only
         const bbox = svg.getBBox();
         const padding = 100;
         svg.setAttribute("viewBox", `${bbox.x - padding / 2} ${bbox.y - padding / 2} ${bbox.width + padding} ${bbox.height + padding}`);

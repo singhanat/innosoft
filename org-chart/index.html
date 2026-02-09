@@ -21,10 +21,39 @@
         </main>
 
         <aside class="sidebar">
-            <h3>SELECT DIAGRAM</h3>
-            <ul id="diagram-list">
-                <!-- Menu items will be injected here -->
-            </ul>
+            <div class="sidebar-section">
+                <h3>SELECT DIAGRAM</h3>
+                <ul id="diagram-list">
+                    <!-- Menu items will be injected here -->
+                </ul>
+            </div>
+
+            <div class="sidebar-section compare-section">
+                <h3>COMPARE STRUCTURE</h3>
+                <div class="compare-controls">
+                    <div class="select-group">
+                        <label>Base (V1)</label>
+                        <select id="compare-base"></select>
+                    </div>
+                    <div class="select-group">
+                        <label>New (V2)</label>
+                        <select id="compare-target"></select>
+                    </div>
+                    <button id="btn-compare" class="compare-btn">Run Comparison</button>
+                    <button id="btn-clear-compare" class="clear-btn" style="display:none">Clear</button>
+                </div>
+            </div>
+
+            <div class="legend" id="compare-legend" style="display:none">
+                <div class="legend-item"><span class="legend-color" style="background: var(--diff-promoted)"></span>
+                    เลื่อนตำแหน่ง (Promoted)</div>
+                <div class="legend-item"><span class="legend-color" style="background: var(--diff-demoted)"></span>
+                    ปรับลดตำแหน่ง (Demoted)</div>
+                <div class="legend-item"><span class="legend-color" style="background: var(--diff-moved)"></span>
+                    ย้ายสายงาน (Moved)</div>
+                <div class="legend-item"><span class="legend-color" style="background: var(--diff-new)"></span>
+                    พนักงานเข้าใหม่ (New)</div>
+            </div>
         </aside>
     </div>
 
