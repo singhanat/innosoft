@@ -4,17 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Organization Chart</title>
+    <title>Innosoft Organization Chart</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Sarabun:wght@400;600&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Sarabun:wght@400;600;700&display=swap"
         rel="stylesheet">
 </head>
 
 <body>
     <div class="app-container">
         <main>
+            <!-- Branding Header -->
+            <header class="chart-header">
+                <div class="logo-area">
+                    <div class="logo-box">IS</div>
+                    <div class="company-info">
+                        <h1 id="diagram-title">Innosoft Org Chart</h1>
+                        <p id="diagram-subtitle">Visualizing our growth & structure</p>
+                    </div>
+                </div>
+
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="ค้นหาชื่อ หรือ ตำแหน่ง...">
+                </div>
+            </header>
+
             <div id="chart-container">
                 <svg id="chart-svg"></svg>
             </div>
@@ -22,7 +38,7 @@
 
         <aside class="sidebar">
             <div class="sidebar-section">
-                <h3>SELECT DIAGRAM</h3>
+                <h3>NAVIGATOR</h3>
                 <ul id="diagram-list">
                     <!-- Menu items will be injected here -->
                 </ul>
@@ -32,27 +48,29 @@
                 <h3>COMPARE STRUCTURE</h3>
                 <div class="compare-controls">
                     <div class="select-group">
-                        <label>Base (V1)</label>
+                        <label>Base (Old)</label>
                         <select id="compare-base"></select>
                     </div>
                     <div class="select-group">
-                        <label>New (V2)</label>
+                        <label>Current (New)</label>
                         <select id="compare-target"></select>
                     </div>
                     <button id="btn-compare" class="compare-btn">Run Comparison</button>
-                    <button id="btn-clear-compare" class="clear-btn" style="display:none">Clear</button>
+                    <button id="btn-clear-compare" class="clear-btn" style="display:none">Back to Standard View</button>
                 </div>
             </div>
 
+            <!-- Softened Legend for Internal Comm -->
             <div class="legend" id="compare-legend" style="display:none">
+                <div class="legend-header">COMPARISON KEY</div>
                 <div class="legend-item"><span class="legend-color" style="background: var(--diff-promoted)"></span>
-                    เลื่อนตำแหน่ง (Promoted)</div>
-                <div class="legend-item"><span class="legend-color" style="background: var(--diff-demoted)"></span>
-                    ปรับลดตำแหน่ง (Demoted)</div>
+                    พัฒนาบทบาทใหม่ (Advanced Role)</div>
+                <div class="legend-item"><span class="legend-color" style="background: var(--diff-realigned)"></span>
+                    ปรับโครงสร้างเพื่อความเหมาะสม (Re-aligned)</div>
                 <div class="legend-item"><span class="legend-color" style="background: var(--diff-moved)"></span>
-                    เปลี่ยนสายการรายงาน (Reporting Change)</div>
+                    เปลี่ยนสายงาน/หัวหน้าทีม (New Team)</div>
                 <div class="legend-item"><span class="legend-color" style="background: var(--diff-new)"></span>
-                    พนักงานเข้าใหม่ (New)</div>
+                    สมาชิกพนักงานใหม่ (Welcome New Member)</div>
             </div>
         </aside>
     </div>

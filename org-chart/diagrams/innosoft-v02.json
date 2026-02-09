@@ -1,46 +1,57 @@
 {
     "บูม": {
         "level": 1,
-        "under": null
+        "under": null,
+        "position": "ผู้อำนวยการ"
     },
     "พี่เอก": {
         "level": 2,
-        "under": "บูม"
+        "under": "บูม",
+        "position": "รองผู้อำนวยการ"
     },
     "พิม": {
         "level": 2,
-        "under": "บูม"
+        "under": "บูม",
+        "position": "รองผู้อำนวยการ"
     },
     "พี่ยิ่ง": {
         "level": 2,
-        "under": "บูม"
+        "under": "บูม",
+        "position": "รองผู้อำนวยการ"
     },
     "ลูกตาล": {
         "level": 3,
-        "under": "พิม"
+        "under": "พิม",
+        "position": "Head of Design"
     },
     "พี่นึก": {
         "level": 3,
-        "under": "พี่ยิ่ง"
+        "under": "พี่ยิ่ง",
+        "position": "Head of Dev and Debug"
     },
     "พี่นิว": {
         "level": 4,
-        "under": "พี่นึก"
+        "under": "พี่นึก",
+        "position": "Senior Software Engineer"
     },
     "จ้า": {
         "level": 4,
-        "under": "พิม"
+        "under": "พิม",
+        "position": "Senior Software Engineer"
     },
     "บอส": {
         "level": 4,
-        "under": "ลูกตาล"
+        "under": "ลูกตาล",
+        "position": "Senior Software Engineer"
     },
     "ภัทร": {
         "level": 5,
-        "under": "จ้า"
+        "under": "จ้า",
+        "position": "Software Engineer"
     },
     "นุ่น": {
         "level": 5,
-        "under": "จ้า"
+        "under": "จ้า",
+        "position": "Software Engineer"
     }
 }

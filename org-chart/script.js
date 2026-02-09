@@ -6,14 +6,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     const btnCompare = document.getElementById('btn-compare');
     const btnClear = document.getElementById('btn-clear-compare');
     const legend = document.getElementById('compare-legend');
+    const searchInput = document.getElementById('search-input');
+    const diagramTitle = document.getElementById('diagram-title');
 
-    // Config
-    const nodeRadius = 50;
+    // Config Readable
+    const nodeRadius = 60;
     const levelSpacing = 160;
-    const horizontalSpacing = 160;
+    const horizontalSpacing = 180;
     const verticalPadding = 100;
 
     let diagrams = [];
+    let currentData = {};
 
     // Initialize
     async function init() {
@@ -25,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             populateSelects();
 
             if (diagrams.length > 0) {
-                loadDiagram(diagrams[0].file, diagrams[0].id);
+                loadDiagram(diagrams[0].file, diagrams[0].id, diagrams[0].name);
             }
         } catch (error) {
             console.error("Init error:", error);
@@ -40,7 +43,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             li.id = `item-${diag.id}`;
             li.textContent = diag.name;
             li.onclick = () => {
-                loadDiagram(diag.file, diag.id);
+                loadDiagram(diag.file, diag.id, diag.name);
                 btnClear.click(); // Reset compare view
             };
             diagramList.appendChild(li);
@@ -59,20 +62,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         return await response.json();
     }
 
-    async function loadDiagram(fileName, id) {
+    async function loadDiagram(fileName, id, name) {
         document.querySelectorAll('.diagram-item').forEach(el => el.classList.remove('active'));
         const activeItem = document.getElementById(`item-${id}`);
         if (activeItem) activeItem.classList.add('active');
 
-        const data = await fetchData(fileName);
-        renderChart(data);
+        diagramTitle.textContent = name;
+        currentData = await fetchData(fileName);
+        renderChart(currentData);
     }
 
     btnCompare.onclick = async () => {
         const baseData = await fetchData(compareBase.value);
         const targetData = await fetchData(compareTarget.value);
 
-        const diffData = calculateAdministrativeDiff(baseData, targetData);
+        const diffData = calculateSoftenedDiff(baseData, targetData);
+        diagramTitle.textContent = "Organization Re-alignment Analysis";
         renderChart(diffData, true);
 
         btnClear.style.display = 'block';
@@ -81,12 +86,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     btnClear.onclick = () => {
         const activeDiag = diagrams.find(d => document.getElementById(`item-${d.id}`).classList.contains('active'));
-        if (activeDiag) loadDiagram(activeDiag.file, activeDiag.id);
+        if (activeDiag) loadDiagram(activeDiag.file, activeDiag.id, activeDiag.name);
         btnClear.style.display = 'none';
         legend.style.display = 'none';
+        searchInput.value = '';
     };
 
-    function calculateAdministrativeDiff(base, target) {
+    function calculateSoftenedDiff(base, target) {
         const result = JSON.parse(JSON.stringify(target));
 
         Object.keys(result).forEach(name => {
@@ -96,23 +102,45 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!oldValue) {
                 result[name].diff = 'new';
             } else {
-                // Administrative focus logic:
-                // 1. Level up (smaller number) => Promoted
-                // 2. Level down (larger number) => Demoted
-                // 3. Same level but boss changed => Moved
-
+                // Softened labels
                 if (newValue.level < oldValue.level) {
                     result[name].diff = 'promoted';
                 } else if (newValue.level > oldValue.level) {
-                    result[name].diff = 'demoted';
+                    result[name].diff = 'realigned'; // Neutral term for demotion
                 } else if (newValue.under !== oldValue.under) {
                     result[name].diff = 'moved';
                 }
             }
         });
-
         return result;
     }
+
+    // SEARCH & HIGHLIGHT
+    searchInput.oninput = (e) => {
+        const term = e.target.value.toLowerCase().trim();
+        const nodes = document.querySelectorAll('.node-group');
+        const lines = document.querySelectorAll('.connector-line');
+
+        if (!term) {
+            nodes.forEach(n => n.classList.remove('faded', 'highlighted'));
+            lines.forEach(l => l.classList.remove('faded'));
+            return;
+        }
+
+        nodes.forEach(n => {
+            const name = n.getAttribute('data-name').toLowerCase();
+            const pos = n.getAttribute('data-pos').toLowerCase();
+            if (name.includes(term) || pos.includes(term)) {
+                n.classList.remove('faded');
+                n.classList.add('highlighted');
+            } else {
+                n.classList.add('faded');
+                n.classList.remove('highlighted');
+            }
+        });
+
+        lines.forEach(l => l.classList.add('faded'));
+    };
 
     function renderChart(rawData, isDiff = false) {
         svg.innerHTML = '';
@@ -122,6 +150,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         Object.entries(rawData).forEach(([name, info]) => {
             nodes[name] = {
                 name,
+                position: info.position || '',
                 level: info.level,
                 under: info.under,
                 diff: info.diff,
@@ -177,6 +206,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         function draw(node) {
             const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
             group.setAttribute("class", "node-group");
+            group.setAttribute("data-name", node.name);
+            group.setAttribute("data-pos", node.position);
 
             const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
             circle.setAttribute("cx", node.x);
@@ -187,14 +218,23 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (isDiff && node.diff) nodeClass += ` node-${node.diff}`;
             circle.setAttribute("class", nodeClass);
 
-            const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            text.setAttribute("x", node.x);
-            text.setAttribute("y", node.y);
-            text.setAttribute("class", "node-text");
-            text.textContent = node.name;
+            // Name Text
+            const textName = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            textName.setAttribute("x", node.x);
+            textName.setAttribute("y", node.y - 8);
+            textName.setAttribute("class", "node-name");
+            textName.textContent = node.name;
+
+            // Position Text
+            const textPos = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            textPos.setAttribute("x", node.x);
+            textPos.setAttribute("y", node.y + 18);
+            textPos.setAttribute("class", "node-pos");
+            textPos.textContent = node.position;
 
             group.appendChild(circle);
-            group.appendChild(text);
+            group.appendChild(textName);
+            group.appendChild(textPos);
             gNodes.appendChild(group);
 
             if (node.children.length > 0) {
@@ -209,7 +249,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     line.setAttribute("d", d);
 
                     let lineClass = "connector-line";
-                    if (isDiff && (child.diff || node.diff)) {
+                    if (isDiff && (child.diff)) {
                         lineClass += " line-highlight";
                     }
                     line.setAttribute("class", lineClass);
@@ -222,7 +262,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         draw(root);
 
         const bbox = svg.getBBox();
-        const padding = 100;
+        const padding = 150; // Tighter margin to make it appear larger
         svg.setAttribute("viewBox", `${bbox.x - padding / 2} ${bbox.y - padding / 2} ${bbox.width + padding} ${bbox.height + padding}`);
     }
 
