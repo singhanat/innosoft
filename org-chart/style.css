@@ -283,6 +283,12 @@ button {
     fill: none;
     stroke: var(--line-color);
     stroke-width: 1.5px;
+    transition: opacity 0.3s;
+}
+
+.connector-line.faded {
+    opacity: 0.2;
+    /* Ghost-like structure */
 }
 
 .node-group.faded {
@@ -291,8 +297,12 @@ button {
 }
 
 .node-group.highlighted {
-    transform: scale(1.15);
-    filter: drop-shadow(0 0 12px var(--accent-color));
+    filter: drop-shadow(0 0 15px var(--accent-color));
+}
+
+.node-group.highlighted .node-circle {
+    stroke: var(--accent-color);
+    stroke-width: 4px;
 }
 
 /* Diff States */
