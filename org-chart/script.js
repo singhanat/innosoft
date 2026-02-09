@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const svg = document.getElementById('chart-svg');
-    const container = document.getElementById('chart-container');
+    const diagramList = document.getElementById('diagram-list');
 
     // Config values
     const nodeRadius = 50;
@@ -8,10 +8,59 @@ document.addEventListener('DOMContentLoaded', async () => {
     const horizontalSpacing = 160;
     const verticalPadding = 100;
 
-    try {
-        const response = await fetch(`data.json?t=${new Date().getTime()}`);
-        const rawData = await response.json();
+    let diagrams = [];
 
+    // Initialize
+    async function init() {
+        try {
+            // 1. Load the list of diagrams
+            const resp = await fetch(`diagrams.json?t=${new Date().getTime()}`);
+            diagrams = await resp.json();
+
+            // 2. Build the sidebar menu
+            renderSidebar();
+
+            // 3. Load the first diagram by default
+            if (diagrams.length > 0) {
+                loadDiagram(diagrams[0].file, diagrams[0].id);
+            }
+        } catch (error) {
+            console.error("Error initializing app:", error);
+        }
+    }
+
+    function renderSidebar() {
+        diagramList.innerHTML = '';
+        diagrams.forEach(diag => {
+            const li = document.createElement('li');
+            li.className = 'diagram-item';
+            li.id = `item-${diag.id}`;
+            li.textContent = diag.name;
+            li.onclick = () => loadDiagram(diag.file, diag.id);
+            diagramList.appendChild(li);
+        });
+    }
+
+    async function loadDiagram(fileName, id) {
+        // Update active state in UI
+        document.querySelectorAll('.diagram-item').forEach(el => el.classList.remove('active'));
+        const activeItem = document.getElementById(`item-${id}`);
+        if (activeItem) activeItem.classList.add('active');
+
+        // Clear existing SVG
+        svg.innerHTML = '';
+
+        try {
+            const response = await fetch(`${fileName}?t=${new Date().getTime()}`);
+            const rawData = await response.json();
+
+            renderChart(rawData);
+        } catch (error) {
+            console.error(`Error loading diagram ${fileName}:`, error);
+        }
+    }
+
+    function renderChart(rawData) {
         // 1. Convert flat JSON to a tree-like structure and build map
         const nodes = {};
         let root = null;
@@ -37,19 +86,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
 
-        if (!root) {
-            console.error("No root node found (level 1)");
-            return;
-        }
+        if (!root) return;
 
         // 2. Calculate positions
-        // We use a recursive function to determine the width of subtrees to space them correctly
         function calculateSubtreeWidth(node) {
             if (node.children.length === 0) {
                 node.subtreeWidth = horizontalSpacing;
                 return node.subtreeWidth;
             }
-
             let width = 0;
             node.children.forEach(child => {
                 width += calculateSubtreeWidth(child);
@@ -59,21 +103,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         function setPositions(node, startX) {
-            // Y position is now strictly based on the level defined in JSON
             node.y = verticalPadding + (node.level - 1) * levelSpacing;
-
             if (node.children.length === 0) {
                 node.x = startX + node.subtreeWidth / 2;
                 return;
             }
-
             let currentX = startX;
             node.children.forEach(child => {
                 setPositions(child, currentX);
                 currentX += child.subtreeWidth;
             });
-
-            // Parent position is average of first and last child's X
             const firstChild = node.children[0];
             const lastChild = node.children[node.children.length - 1];
             node.x = (firstChild.x + lastChild.x) / 2;
@@ -88,8 +127,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         svg.appendChild(gLines);
         svg.appendChild(gNodes);
 
-        function render(node) {
-            // Render node
+        function drawNode(node) {
             const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
             group.setAttribute("class", "node-group");
 
@@ -110,41 +148,30 @@ document.addEventListener('DOMContentLoaded', async () => {
             gNodes.appendChild(group);
 
             if (node.children.length > 0) {
-                // Determine a fixed midY for all children of this parent
-                // We use half-way between parent bottom and the nearest child top
                 const startX = node.x;
                 const startY = node.y + nodeRadius;
-
-                // Find the Y of the level immediately below parent
                 const minChildY = Math.min(...node.children.map(c => c.y));
                 const midY = (startY + (minChildY - nodeRadius)) / 2;
 
                 node.children.forEach(child => {
                     const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                    const endX = child.x;
-                    const endY = child.y - nodeRadius;
-
-                    // Move to start, line down to midY, horizontal to childX, line down to child
-                    const d = `M ${startX} ${startY} L ${startX} ${midY} L ${endX} ${midY} L ${endX} ${endY}`;
-
+                    const d = `M ${startX} ${startY} L ${startX} ${midY} L ${child.x} ${midY} L ${child.x} ${child.y - nodeRadius}`;
                     line.setAttribute("d", d);
                     line.setAttribute("class", "connector-line");
                     gLines.appendChild(line);
-
-                    render(child);
+                    drawNode(child);
                 });
             }
         }
 
-        render(root);
+        drawNode(root);
 
-        // Auto-scale SVG to fit content
+        // Auto-scale
         const bbox = svg.getBBox();
         svg.setAttribute("viewBox", `${bbox.x - 50} ${bbox.y - 50} ${bbox.width + 100} ${bbox.height + 100}`);
         svg.setAttribute("width", bbox.width + 100);
         svg.setAttribute("height", bbox.height + 100);
-
-    } catch (error) {
-        console.error("Error loading or rendering org chart:", error);
     }
+
+    init();
 });

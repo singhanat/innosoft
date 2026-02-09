@@ -1,0 +1,26 @@
+{
+    "Project Lead": {
+        "level": 1,
+        "under": null
+    },
+    "Dev Team": {
+        "level": 2,
+        "under": "Project Lead"
+    },
+    "Design Team": {
+        "level": 2,
+        "under": "Project Lead"
+    },
+    "Backend": {
+        "level": 3,
+        "under": "Dev Team"
+    },
+    "Frontend": {
+        "level": 3,
+        "under": "Dev Team"
+    },
+    "UI/UX": {
+        "level": 3,
+        "under": "Design Team"
+    }
+}

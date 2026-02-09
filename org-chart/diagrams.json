@@ -1,0 +1,12 @@
+[
+    {
+        "id": "main",
+        "name": "แผนผังองค์รวม",
+        "file": "org-structure.json"
+    },
+    {
+        "id": "project-x",
+        "name": "ทีมโปรเจกต์ X",
+        "file": "org-project-x.json"
+    }
+]
