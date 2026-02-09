@@ -1,12 +1,12 @@
 [
     {
-        "id": "main",
-        "name": "แผนผังองค์รวม",
-        "file": "org-structure.json"
+        "id": "innosoft-v01",
+        "name": "Innosoft (V.1)",
+        "file": "diagrams/innosoft-v01.json"
     },
     {
-        "id": "project-x",
-        "name": "ทีมโปรเจกต์ X",
-        "file": "org-project-x.json"
+        "id": "innosoft-v02",
+        "name": "Innosoft (V.2)",
+        "file": "diagrams/innosoft-v02.json"
     }
 ]
