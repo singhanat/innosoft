@@ -1,26 +1,46 @@
 {
-    "Project Lead": {
+    "บูม": {
         "level": 1,
         "under": null
     },
-    "Dev Team": {
+    "พี่เอก": {
         "level": 2,
-        "under": "Project Lead"
+        "under": "บูม"
     },
-    "Design Team": {
+    "พิม": {
         "level": 2,
-        "under": "Project Lead"
+        "under": "บูม"
     },
-    "Backend": {
-        "level": 3,
-        "under": "Dev Team"
+    "พี่ยิ่ง": {
+        "level": 2,
+        "under": "บูม"
     },
-    "Frontend": {
+    "ลูกตาล": {
         "level": 3,
-        "under": "Dev Team"
+        "under": "พิม"
     },
-    "UI/UX": {
+    "พี่นึก": {
         "level": 3,
-        "under": "Design Team"
+        "under": "พี่ยิ่ง"
+    },
+    "พี่นิว": {
+        "level": 4,
+        "under": "พี่นึก"
+    },
+    "จ้า": {
+        "level": 4,
+        "under": "พิม"
+    },
+    "บอส": {
+        "level": 4,
+        "under": "ลูกตาล"
+    },
+    "ภัทร": {
+        "level": 5,
+        "under": "จ้า"
+    },
+    "นุ่น": {
+        "level": 5,
+        "under": "จ้า"
     }
 }

@@ -166,11 +166,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         drawNode(root);
 
-        // Auto-scale
+        // Auto-fit using viewBox only
         const bbox = svg.getBBox();
-        svg.setAttribute("viewBox", `${bbox.x - 50} ${bbox.y - 50} ${bbox.width + 100} ${bbox.height + 100}`);
-        svg.setAttribute("width", bbox.width + 100);
-        svg.setAttribute("height", bbox.height + 100);
+        const padding = 100;
+        svg.setAttribute("viewBox", `${bbox.x - padding / 2} ${bbox.y - padding / 2} ${bbox.width + padding} ${bbox.height + padding}`);
     }
 
     init();
