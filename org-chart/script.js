@@ -428,6 +428,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     stroke: #cbd5e1; 
                     stroke-width: 1.5px; 
                 }
+                .connector-line.line-dashed {
+                    stroke-dasharray: 6, 4;
+                }
                 .node-promoted { fill: #10b981 !important; }
                 .node-realigned { fill: #64748b !important; }
                 .node-moved { fill: #f59e0b !important; }
@@ -518,6 +521,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 level: info.level,
                 under: info.under,
                 diff: info.diff,
+                lineType: info.lineType, // Support custom line types (e.g. 'dashed')
                 children: [],
                 x: 0,
                 y: 0
@@ -620,6 +624,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     let lineClass = "connector-line";
                     if (isDiff && (child.diff)) {
                         lineClass += " line-highlight";
+                    }
+                    if (child.lineType === 'dashed') {
+                        lineClass += " line-dashed";
                     }
                     line.setAttribute("class", lineClass);
                     gLines.appendChild(line);

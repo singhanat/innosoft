@@ -8,5 +8,10 @@
         "id": "innosoft-v02",
         "name": "Innosoft (V.2)",
         "file": "diagrams/innosoft-v02.json"
+    },
+    {
+        "id": "innosoft-v03",
+        "name": "Innosoft (V.3)",
+        "file": "diagrams/innosoft-v03.json"
     }
 ]

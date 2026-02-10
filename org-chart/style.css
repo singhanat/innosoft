@@ -307,6 +307,10 @@ button {
     transition: opacity 0.3s;
 }
 
+.connector-line.line-dashed {
+    stroke-dasharray: 6, 4;
+}
+
 .connector-line.faded {
     opacity: 0.2;
     /* Ghost-like structure */
