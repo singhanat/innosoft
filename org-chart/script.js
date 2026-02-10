@@ -10,6 +10,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const diagramTitle = document.getElementById('diagram-title');
     const btnReset = document.getElementById('btn-reset');
     const btnDownload = document.getElementById('btn-download');
+    const btnFullscreen = document.getElementById('btn-fullscreen');
+    const iconMaximize = document.getElementById('icon-maximize');
+    const iconMinimize = document.getElementById('icon-minimize');
+    const chartContainer = document.getElementById('chart-container');
 
     // Config Readable
     const nodeRadius = 60;
@@ -261,6 +265,36 @@ document.addEventListener('DOMContentLoaded', async () => {
     btnDownload.onclick = () => {
         saveSvgAsPng();
     };
+
+    btnFullscreen.onclick = () => {
+        if (!document.fullscreenElement) {
+            chartContainer.requestFullscreen().catch(err => {
+                alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    };
+
+    // Update icons on fullscreen change
+    // Update icons on fullscreen change
+    document.addEventListener('fullscreenchange', () => {
+        if (document.fullscreenElement) {
+            iconMaximize.style.display = 'none';
+            iconMinimize.style.display = 'block';
+            chartContainer.classList.add('is-fullscreen');
+
+            // Re-center when entering fullscreen
+            setTimeout(fitToScreen, 100);
+        } else {
+            iconMaximize.style.display = 'block';
+            iconMinimize.style.display = 'none';
+            chartContainer.classList.remove('is-fullscreen');
+
+            // Re-center when exiting fullscreen to ensure layout is correct
+            setTimeout(fitToScreen, 100);
+        }
+    });
 
     function fitToScreen() {
         if (!mainGroup) return;
