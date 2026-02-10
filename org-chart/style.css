@@ -113,7 +113,16 @@ main {
     align-items: center;
     overflow: hidden;
     /* CRITICAL: No overflow allowed */
-    padding: 20px;
+}
+
+#chart-svg {
+    cursor: grab;
+    touch-action: none;
+    /* Prevent browser zooming on touch devices */
+}
+
+#chart-svg:active {
+    cursor: grabbing;
 }
 
 svg {
@@ -321,4 +330,64 @@ button {
 
 .node-new {
     fill: var(--diff-new) !important;
+}
+
+/* FLOATING TOOLBAR */
+.floating-toolbar {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 200;
+}
+
+.toolbar-btn {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    color: var(--text-color);
+}
+
+.toolbar-btn:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(13, 84, 113, 0.2);
+}
+
+.toolbar-btn .tooltip {
+    position: absolute;
+    right: 60px;
+    /* Position to the left of the button */
+    top: 50%;
+    transform: translateY(-50%) translateX(10px);
+    background: rgba(30, 41, 59, 0.9);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s;
+    white-space: nowrap;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.toolbar-btn:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) translateX(0);
 }
