@@ -509,9 +509,59 @@ document.addEventListener('DOMContentLoaded', async () => {
         lines.forEach(l => l.classList.add('faded'));
     };
 
+    function updateHeadcountSummary(data) {
+        const summaryContainer = document.getElementById('headcount-summary');
+        const listContainer = document.getElementById('headcount-list');
+        const totalValue = document.getElementById('headcount-total-value');
+
+        if (!data || Object.keys(data).length === 0) {
+            summaryContainer.style.display = 'none';
+            return;
+        }
+
+        const stats = {};
+        let total = 0;
+
+        Object.values(data).forEach(person => {
+            const pos = person.position || 'Unknown Position';
+            if (!stats[pos]) {
+                stats[pos] = { count: 0, level: Infinity };
+            }
+            stats[pos].count++;
+            // Capture the highest rank (lowest level number) associated with this position title
+            if (person.level !== undefined && person.level < stats[pos].level) {
+                stats[pos].level = person.level;
+            }
+            total++;
+        });
+
+        // Convert to array and sort by level ascending
+        const sortedStats = Object.entries(stats).sort((a, b) => {
+            // Primary sort: Level (ascending)
+            const levelDiff = a[1].level - b[1].level;
+            if (levelDiff !== 0) return levelDiff;
+            // Secondary sort: Count (descending)
+            return b[1].count - a[1].count;
+        });
+
+        listContainer.innerHTML = sortedStats.map(([pos, info]) => `
+            <li>
+                <span>${pos}</span>
+                <span>${info.count}</span>
+            </li>
+        `).join('');
+
+        totalValue.textContent = total;
+        summaryContainer.style.display = 'block';
+    }
+
     function renderChart(rawData, isDiff = false) {
+        // Update Headcount
+        updateHeadcountSummary(rawData);
+
         svg.innerHTML = '';
         const nodes = {};
+
         let root = null;
 
         Object.entries(rawData).forEach(([name, info]) => {

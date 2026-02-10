@@ -2,22 +2,22 @@
     "บูม": {
         "level": 1,
         "under": null,
-        "position": "ผู้อำนวยการ"
+        "position": "Director"
     },
     "พี่เอก": {
         "level": 2,
         "under": "บูม",
-        "position": "รองผู้อำนวยการ"
+        "position": "Vice Director"
     },
     "พิม": {
         "level": 2,
         "under": "บูม",
-        "position": "รองผู้อำนวยการ"
+        "position": "Vice Director"
     },
     "พี่ยิ่ง": {
         "level": 2,
         "under": "บูม",
-        "position": "รองผู้อำนวยการ"
+        "position": "Vice Director"
     },
     "ลูกตาล": {
         "level": 3,

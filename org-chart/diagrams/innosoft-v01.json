@@ -2,17 +2,17 @@
     "พี่เอก": {
         "level": 1,
         "under": null,
-        "position": "ผู้อำนวยการ"
+        "position": "Director"
     },
     "บูม": {
         "level": 2,
         "under": "พี่เอก",
-        "position": "รองผู้อำนวยการ"
+        "position": "Vice Director"
     },
     "พี่ยิ่ง": {
         "level": 2,
         "under": "พี่เอก",
-        "position": "รองผู้อำนวยการ"
+        "position": "Vice Director"
     },
     "พิม": {
         "level": 3,
