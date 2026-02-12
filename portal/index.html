@@ -12,6 +12,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="error_style.css">
 </head>
 
 <body>
@@ -99,8 +100,18 @@
                 <!-- Project List View -->
                 <div id="project-list-view">
                     <div class="page-header">
-                        <h2>Projects Overview</h2>
-                        <p>Centralized resource management for all ongoing initiatives.</p>
+                        <div>
+                            <h2>Projects Overview</h2>
+                            <p>Centralized resource management for all ongoing initiatives.</p>
+                        </div>
+                        <div class="view-toggle">
+                            <button id="view-grid" class="toggle-btn active" title="Grid View">
+                                <i class="fa-solid fa-border-all"></i>
+                            </button>
+                            <button id="view-list" class="toggle-btn" title="List View">
+                                <i class="fa-solid fa-list-ul"></i>
+                            </button>
+                        </div>
                     </div>
 
                     <div id="project-grid" class="project-grid">

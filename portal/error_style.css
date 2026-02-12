@@ -1,0 +1,16 @@
+.error-msg {
+    text-align: center;
+    color: #ef4444;
+    padding: 24px;
+    background: #fef2f2;
+    border: 1px solid #fee2e2;
+    border-radius: var(--radius-md);
+    width: 100%;
+}
+
+.error-msg small {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 8px;
+    display: block;
+}

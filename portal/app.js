@@ -4,6 +4,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const detailView = document.getElementById('project-detail-view');
     const grid = document.getElementById('project-grid');
     const backBtn = document.getElementById('back-btn');
+    const viewGridBtn = document.getElementById('view-grid');
+    const viewListBtn = document.getElementById('view-list');
+
+    // View Toggle Logic
+    if (viewGridBtn && viewListBtn) {
+        viewGridBtn.addEventListener('click', () => {
+            grid.classList.remove('list-view');
+            viewGridBtn.classList.add('active');
+            viewListBtn.classList.remove('active');
+        });
+
+        viewListBtn.addEventListener('click', () => {
+            grid.classList.add('list-view');
+            viewListBtn.classList.add('active');
+            viewGridBtn.classList.remove('active');
+        });
+    }
 
     // Detail Elements
     const detailIcon = document.getElementById('detail-icon');
@@ -23,13 +40,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fetch Data
     fetch('data.json')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             renderProjects(data);
         })
         .catch(error => {
             console.error('Error fetching data:', error);
-            grid.innerHTML = '<p class="error-msg">Failed to load project data.</p>';
+            grid.innerHTML = `<div class="error-msg">
+                <p>Failed to load project data.</p>
+                <small>${error.message}</small>
+                <br>
+                <small>If you are opening this file directly, please use a local server (e.g. run.ps1)</small>
+            </div>`;
         });
 
     function renderProjects(projects) {
@@ -38,12 +65,21 @@ document.addEventListener('DOMContentLoaded', () => {
             card.className = 'project-card';
 
             const icon = getProjectIcon(project.name);
+            const statusText = project.status || 'Unknown';
+            const statusColors = getStatusColor(statusText);
 
             card.innerHTML = `
                 <div class="card-icon">${icon}</div>
-                <div class="card-title">${project.name}</div>
-                <div class="card-summary">${project.description || ''}</div>
-                <div style="margin-top:auto; font-size:0.8rem; color: #64748b; font-weight:500;">
+                <div class="card-info">
+                    <div class="card-title">${project.name}</div>
+                    <div class="card-summary">${project.description || ''}</div>
+                </div>
+                <div class="card-status">
+                    <span class="status-badge" style="background:${statusColors.bg}; color:${statusColors.text};">
+                        ${statusText}
+                    </span>
+                </div>
+                <div class="card-meta">
                     ${project.metadata?.department || 'General'}
                 </div>
             `;
