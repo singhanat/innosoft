@@ -38,6 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const contentArea = document.querySelector('.content-area');
     let lastScrollPosition = 0;
 
+    let allProjects = [];
+
     // Fetch Data
     fetch('data.json')
         .then(response => {
@@ -47,6 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(data => {
+            allProjects = data;
+            populateFilters(data);
             renderProjects(data);
         })
         .catch(error => {
@@ -59,10 +63,80 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>`;
         });
 
+    // Filtering
+    const deptFilter = document.getElementById('dept-filter');
+    const techFilter = document.getElementById('tech-filter');
+    const searchInput = document.querySelector('.search-box input'); // Search from topbar
+
+    function populateFilters(projects) {
+        // Collect unique technologies
+        const techs = new Set();
+        projects.forEach(p => {
+            if (p.techStack) {
+                p.techStack.forEach(t => techs.add(t));
+            }
+        });
+
+        // Sort and Append
+        Array.from(techs).sort().forEach(tech => {
+            const option = document.createElement('option');
+            option.value = tech;
+            option.textContent = tech;
+            techFilter.appendChild(option);
+        });
+    }
+
+    function filterProjects() {
+        const deptValue = deptFilter.value;
+        const techValue = techFilter.value;
+        const searchValue = searchInput.value.toLowerCase();
+
+        const filtered = allProjects.filter(project => {
+            // Department Filter
+            const projectDept = project.metadata?.department || 'General';
+            const matchDept = deptValue === 'all' || projectDept === deptValue;
+
+            // Tech Filter
+            const projectTech = project.techStack || [];
+            const matchTech = techValue === 'all' || projectTech.includes(techValue);
+
+            // Search Filter (Name, Description, Tags)
+            const matchSearch = (
+                project.name.toLowerCase().includes(searchValue) ||
+                (project.description || '').toLowerCase().includes(searchValue) ||
+                (project.tags || []).some(tag => tag.toLowerCase().includes(searchValue))
+            );
+
+            return matchDept && matchTech && matchSearch;
+        });
+
+        renderProjects(filtered);
+    }
+
+    // Event Listeners for Filters
+    if (deptFilter) deptFilter.addEventListener('change', filterProjects);
+    if (techFilter) techFilter.addEventListener('change', filterProjects);
+    if (searchInput) searchInput.addEventListener('input', filterProjects);
+
     function renderProjects(projects) {
+        grid.innerHTML = '';
+        if (projects.length === 0) {
+            grid.innerHTML = '<p class="text-muted" style="grid-column: 1/-1; text-align: center;">No projects found matching your criteria.</p>';
+            return;
+        }
+
         projects.forEach(project => {
             const card = document.createElement('div');
             card.className = 'project-card';
+
+            // Build Tech Tags
+            let tagsHtml = '';
+            if (project.techStack) {
+                tagsHtml = `<div class="card-tags">
+                    ${project.techStack.slice(0, 3).map(t => `<span class="tech-tag">${t}</span>`).join('')}
+                    ${project.techStack.length > 3 ? `<span class="tech-tag">+${project.techStack.length - 3}</span>` : ''}
+                </div>`;
+            }
 
             const icon = getProjectIcon(project.name);
             const statusText = project.status || 'Unknown';
@@ -73,6 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="card-info">
                     <div class="card-title">${project.name}</div>
                     <div class="card-summary">${project.description || ''}</div>
+                    ${tagsHtml}
                 </div>
                 <div class="card-status">
                     <span class="status-badge" style="background:${statusColors.bg}; color:${statusColors.text};">
@@ -177,6 +252,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Restore scroll position
         contentArea.scrollTop = lastScrollPosition;
+
+        // Reset Filters if desired, or keep them?
+        // Let's keep them purely client-side state for now.
+        // But if we wanted to clear:
+        // deptFilter.value = 'all'; 
+        // techFilter.value = 'all';
+        // searchInput.value = '';
+        // filterProjects();
     }
 
     backBtn.addEventListener('click', showProjectList);

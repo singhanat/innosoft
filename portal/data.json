@@ -11,30 +11,33 @@
             "startDate": "-",
             "department": "HRM"
         },
+        "techStack": [
+            "Node.js",
+            "MSSQL",
+            "EJS"
+        ],
+        "tags": [
+            "HR",
+            "Internal"
+        ],
         "resources": [
             {
                 "type": "link",
                 "name": "Production URL",
                 "value": "https://forms.kmutt.ac.th",
-                "icon": "🌐"
+                "icon": "URL"
             },
             {
                 "type": "server",
                 "name": "Production Server (Windows Server & MSSQL)",
                 "value": "10.2.14.192",
-                "icon": "🖥️"
+                "icon": "VM"
             },
             {
                 "type": "git",
                 "name": "Repository",
                 "value": "https://github.com/innosoft-mis/hrm",
-                "icon": "code"
-            },
-            {
-                "type": "doc",
-                "name": "Diagram",
-                "value": "docs/hrm-form1.pdf",
-                "icon": "📄"
+                "icon": "GIT"
             }
         ]
     },
@@ -48,30 +51,39 @@
         "metadata": {
             "department": "EDS"
         },
+        "techStack": [
+            "Python",
+            "Django",
+            "PostgreSQL"
+        ],
+        "tags": [
+            "Data",
+            "ETL"
+        ],
         "resources": [
             {
                 "type": "link",
                 "name": "Production URL",
                 "value": "https://edsdata1.kmutt.ac.th",
-                "icon": "🌐"
+                "icon": "URL"
             },
             {
                 "type": "server",
                 "name": "Production Server (Windows Server & MSSQL)",
                 "value": "10.2.14.93",
-                "icon": "🖥️"
+                "icon": "VM"
             },
             {
                 "type": "database",
                 "name": "DB Server (ETL & Data Processing)",
                 "value": "10.1.126.57",
-                "icon": "🗄️"
+                "icon": "DB"
             },
             {
                 "type": "git",
                 "name": "Repository",
                 "value": "https://github.com/innosoft-mis/edsdata1",
-                "icon": "code"
+                "icon": "GIT"
             }
         ]
     },
@@ -85,30 +97,39 @@
         "metadata": {
             "department": "EDS"
         },
+        "techStack": [
+            "C#",
+            ".NET Core",
+            "SQL Server"
+        ],
+        "tags": [
+            "Data",
+            "API"
+        ],
         "resources": [
             {
                 "type": "link",
                 "name": "Production URL",
                 "value": "https://edsdata2.kmutt.ac.th",
-                "icon": "🌐"
+                "icon": "URL"
             },
             {
                 "type": "server",
                 "name": "Production Server (Windows Server)",
                 "value": "10.2.14.28",
-                "icon": "🖥️"
+                "icon": "VM"
             },
             {
                 "type": "database",
                 "name": "DB Server (MSSQL)",
                 "value": "10.1.126.57",
-                "icon": "🗄️"
+                "icon": "DB"
             },
             {
                 "type": "git",
                 "name": "Repository",
                 "value": "https://github.com/innosoft-mis/edsdata2",
-                "icon": "code"
+                "icon": "GIT"
             }
         ]
     }

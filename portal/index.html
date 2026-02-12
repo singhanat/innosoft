@@ -104,13 +104,26 @@
                             <h2>Projects Overview</h2>
                             <p>Centralized resource management for all ongoing initiatives.</p>
                         </div>
-                        <div class="view-toggle">
-                            <button id="view-grid" class="toggle-btn active" title="Grid View">
-                                <i class="fa-solid fa-border-all"></i>
-                            </button>
-                            <button id="view-list" class="toggle-btn" title="List View">
-                                <i class="fa-solid fa-list-ul"></i>
-                            </button>
+                        <div class="header-controls">
+                            <div class="filter-group">
+                                <select id="dept-filter" class="filter-select">
+                                    <option value="all">All Departments</option>
+                                    <option value="HRM">HRM</option>
+                                    <option value="EDS">EDS</option>
+                                </select>
+                                <select id="tech-filter" class="filter-select">
+                                    <option value="all">All Technologies</option>
+                                    <!-- Populated by JS -->
+                                </select>
+                            </div>
+                            <div class="view-toggle">
+                                <button id="view-grid" class="toggle-btn active" title="Grid View">
+                                    <i class="fa-solid fa-border-all"></i>
+                                </button>
+                                <button id="view-list" class="toggle-btn" title="List View">
+                                    <i class="fa-solid fa-list-ul"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
