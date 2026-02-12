@@ -1,106 +1,114 @@
 [
     {
-        "id": "prj-001",
-        "name": "HR Management System",
-        "description": "Centralized system for all HR related activities including payroll, leave management, and recruitment.",
-        "owner": "Sarah Connor",
-        "status": "Active",
-        "image": "assets/hr-system.png",
+        "id": "hrm-form1",
+        "name": "HRM Form 1",
+        "description": "ระบบฟอร์มเลื่อนระดับ บุคลากร สาย ว.",
+        "owner": "Innosoft MIS Team",
+        "status": "Maintenance",
+        "image": "assets/hrm-form1.png",
         "metadata": {
-            "budget": "5M THB",
-            "startDate": "2025-01-15",
-            "department": "Human Resources"
+            "budget": "-",
+            "startDate": "-",
+            "department": "HRM"
         },
         "resources": [
             {
                 "type": "link",
                 "name": "Production URL",
-                "value": "https://hr.innosoft.local",
+                "value": "https://forms.kmutt.ac.th",
                 "icon": "🌐"
             },
             {
                 "type": "server",
-                "name": "App Server",
-                "value": "192.168.10.50",
-                "icon": "🖥️"
-            },
-            {
-                "type": "database",
-                "name": "DB Server",
-                "value": "192.168.10.51",
-                "icon": "🗄️"
-            },
-            {
-                "type": "doc",
-                "name": "Architecture Diagram",
-                "value": "docs/arch_v2.pdf",
-                "icon": "📄"
-            }
-        ]
-    },
-    {
-        "id": "prj-002",
-        "name": "Finance Dashboard 2.0",
-        "description": "Real-time financial analytics dashboard for executive decision making.",
-        "owner": "Gordon Gekko",
-        "status": "In Development",
-        "image": "assets/finance-dash.png",
-        "metadata": {
-            "budget": "12M THB",
-            "startDate": "2025-03-01",
-            "department": "Finance"
-        },
-        "resources": [
-            {
-                "type": "link",
-                "name": "Staging URL",
-                "value": "https://finance-stg.innosoft.local",
-                "icon": "🌐"
-            },
-            {
-                "type": "server",
-                "name": "Analytics Engine",
-                "value": "192.168.20.15",
+                "name": "Production Server (Windows Server & MSSQL)",
+                "value": "10.2.14.192",
                 "icon": "🖥️"
             },
             {
                 "type": "git",
                 "name": "Repository",
-                "value": "git@github.com:innosoft/finance-dash.git",
+                "value": "https://github.com/innosoft-mis/hrm",
+                "icon": "code"
+            },
+            {
+                "type": "doc",
+                "name": "Diagram",
+                "value": "docs/hrm-form1.pdf",
+                "icon": "📄"
+            }
+        ]
+    },
+    {
+        "id": "edsdata1",
+        "name": "EDS Data 1",
+        "description": "ระบบข้อมูลองค์ 1",
+        "owner": "Innosoft MIS Team",
+        "status": "Maintenance",
+        "image": "assets/edsdata1.png",
+        "metadata": {
+            "department": "EDS"
+        },
+        "resources": [
+            {
+                "type": "link",
+                "name": "Production URL",
+                "value": "https://edsdata1.kmutt.ac.th",
+                "icon": "🌐"
+            },
+            {
+                "type": "server",
+                "name": "Production Server (Windows Server & MSSQL)",
+                "value": "10.2.14.93",
+                "icon": "🖥️"
+            },
+            {
+                "type": "database",
+                "name": "DB Server (ETL & Data Processing)",
+                "value": "10.1.126.57",
+                "icon": "🗄️"
+            },
+            {
+                "type": "git",
+                "name": "Repository",
+                "value": "https://github.com/innosoft-mis/edsdata1",
                 "icon": "code"
             }
         ]
     },
     {
-        "id": "prj-003",
-        "name": "Customer Portal",
-        "description": "Self-service portal for customers to track orders and support tickets.",
-        "owner": "Tony Stark",
+        "id": "edsdata2",
+        "name": "EDS Data 2",
+        "description": "ระบบข้อมูลองค์ 2",
+        "owner": "Innosoft MIS Team",
         "status": "Maintenance",
-        "image": "assets/customer-portal.png",
+        "image": "assets/edsdata2.png",
         "metadata": {
-            "budget": "3.5M THB",
-            "startDate": "2024-11-20",
-            "department": "Customer Success"
+            "department": "EDS"
         },
         "resources": [
             {
                 "type": "link",
-                "name": "Public URL",
-                "value": "https://portal.innosoft.com",
+                "name": "Production URL",
+                "value": "https://edsdata2.kmutt.ac.th",
                 "icon": "🌐"
             },
             {
-                "type": "cloud",
-                "name": "AWS Cluster",
-                "value": "us-east-1",
-                "icon": "☁️"
+                "type": "server",
+                "name": "Production Server (Windows Server)",
+                "value": "10.2.14.28",
+                "icon": "🖥️"
             },
             {
-                "type": "doc",
-                "name": "API Documentation",
-                "value": "/docs/api-spec.html",
-                "icon": "📄"
+                "type": "database",
+                "name": "DB Server (MSSQL)",
+                "value": "10.1.126.57",
+                "icon": "🗄️"
+            },
+            {
+                "type": "git",
+                "name": "Repository",
+                "value": "https://github.com/innosoft-mis/edsdata2",
+                "icon": "code"
             }
         ]
     }
