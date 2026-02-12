@@ -135,24 +135,34 @@
                     </div>
 
                     <div class="detail-body">
-                        <div class="detail-description">
-                            <h4 class="section-title">About</h4>
-                            <p id="detail-description"></p>
-                        </div>
-
-                        <div class="detail-grid">
-                            <div class="info-column">
-                                <h4 class="section-title">Details</h4>
-                                <div id="detail-metadata" class="metadata-list">
-                                    <!-- Metadata items injected here -->
-                                </div>
+                        <!-- Top: Combined Info Card -->
+                        <div class="detail-section combined-info">
+                            <div class="about-block">
+                                <h4 class="section-title">About</h4>
+                                <p id="detail-description"></p>
                             </div>
 
-                            <div class="resources-column">
-                                <h4 class="section-title">Resources & Links</h4>
-                                <div id="detail-resources" class="resources-list">
-                                    <!-- Resources items injected here -->
+                            <div class="details-divider"></div>
+
+                            <div class="meta-block">
+                                <h4 class="section-title">Details</h4>
+                                <div id="detail-metadata" class="metadata-grid">
+                                    <!-- Metadata injected here -->
                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- Bottom: Resources -->
+                        <div class="detail-section resources-section" style="margin-top: 32px;">
+                            <h4 class="section-title">Resources & Links</h4>
+                            <div class="resource-table-header">
+                                <span>TYPE</span>
+                                <span>NAME</span>
+                                <span>VALUE</span>
+                                <span style="text-align:right;">ACTION</span>
+                            </div>
+                            <div id="detail-resources" class="resources-table">
+                                <!-- Resources injected here -->
                             </div>
                         </div>
                     </div>

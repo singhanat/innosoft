@@ -124,22 +124,24 @@ document.addEventListener('DOMContentLoaded', () => {
         if (project.resources && project.resources.length > 0) {
             project.resources.forEach(res => {
                 const el = document.createElement('div');
-                el.className = 'resource-card';
+                el.className = 'resource-row';
 
                 let actionHtml = '';
                 if (res.type === 'link' || res.type === 'git') {
-                    actionHtml = `<a href="${res.value}" target="_blank" class="res-action">OPEN <i class="fa-solid fa-arrow-up-right-from-square"></i></a>`;
+                    actionHtml = `<a href="${res.value}" target="_blank" class="res-action-icon" title="Open"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>`;
                 } else {
-                    actionHtml = `<button class="res-action" onclick="navigator.clipboard.writeText('${res.value}')">COPY <i class="fa-regular fa-copy"></i></button>`;
+                    actionHtml = `<button class="res-action-icon" style="border:none; background:transparent;" onclick="navigator.clipboard.writeText('${res.value}')" title="Copy"><i class="fa-regular fa-copy"></i></button>`;
                 }
 
                 el.innerHTML = `
                     <div class="res-left">
                         <div class="res-icon">${res.icon || '<i class="fa-solid fa-box"></i>'}</div>
-                        <div class="res-info">
-                            <span class="res-name">${res.name}</span>
-                            <span class="res-value">${res.value}</span>
-                        </div>
+                    </div>
+                    <div class="res-name-col">
+                        <span class="res-name">${res.name}</span>
+                    </div>
+                    <div class="res-value-col">
+                        <span class="res-value" title="${res.value}">${res.value}</span>
                     </div>
                     ${actionHtml}
                 `;
