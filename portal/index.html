@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Innosoft Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-box">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+                <span class="logo-text">INNOSOFT</span>
+            </div>
+
+            <ul class="nav-menu">
+                <li class="nav-item active">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-grid-2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-sitemap"></i>
+                        <span>Organization</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Teams</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="avatar">AD</div>
+                    <div class="user-info">
+                        <span class="user-name">Admin User</span>
+                        <span class="user-role">System Admin</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="breadcrumb">
+                    <span class="text-muted">Home</span>
+                    <span class="separator">/</span>
+                    <span class="current">Projects Portal</span>
+                </div>
+
+                <div class="topbar-actions">
+                    <div class="search-box">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" placeholder="Search projects...">
+                    </div>
+                    <button class="icon-btn">
+                        <i class="fa-regular fa-bell"></i>
+                    </button>
+                    <button class="icon-btn">
+                        <i class="fa-regular fa-circle-question"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="content-area">
+                <div class="page-header">
+                    <h2>Projects Overview</h2>
+                    <p>Centralized resource management for all ongoing initiatives.</p>
+                </div>
+
+                <div id="project-grid" class="project-grid">
+                    <!-- Projects injected here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Project Detail Modal -->
+    <div id="project-modal" class="modal-overlay hidden">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <div class="modal-icon-box" id="modal-icon"></div>
+                    <div>
+                        <h2 id="modal-title">Project Name</h2>
+                        <span id="modal-status" class="status-pill">Status</span>
+                    </div>
+                </div>
+                <button class="close-modal-btn">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-description">
+                    <h4 class="section-title">About</h4>
+                    <p id="modal-description"></p>
+                </div>
+
+                <div class="modal-grid">
+                    <div class="info-column">
+                        <h4 class="section-title">Details</h4>
+                        <div id="modal-metadata" class="metadata-list">
+                            <!-- Metadata items injected here -->
+                        </div>
+                    </div>
+
+                    <div class="resources-column">
+                        <h4 class="section-title">Resources & Links</h4>
+                        <div id="modal-resources" class="resources-list">
+                            <!-- Resources items injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

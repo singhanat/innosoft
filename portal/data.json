@@ -1,0 +1,107 @@
+[
+    {
+        "id": "prj-001",
+        "name": "HR Management System",
+        "description": "Centralized system for all HR related activities including payroll, leave management, and recruitment.",
+        "owner": "Sarah Connor",
+        "status": "Active",
+        "image": "assets/hr-system.png",
+        "metadata": {
+            "budget": "5M THB",
+            "startDate": "2025-01-15",
+            "department": "Human Resources"
+        },
+        "resources": [
+            {
+                "type": "link",
+                "name": "Production URL",
+                "value": "https://hr.innosoft.local",
+                "icon": "🌐"
+            },
+            {
+                "type": "server",
+                "name": "App Server",
+                "value": "192.168.10.50",
+                "icon": "🖥️"
+            },
+            {
+                "type": "database",
+                "name": "DB Server",
+                "value": "192.168.10.51",
+                "icon": "🗄️"
+            },
+            {
+                "type": "doc",
+                "name": "Architecture Diagram",
+                "value": "docs/arch_v2.pdf",
+                "icon": "📄"
+            }
+        ]
+    },
+    {
+        "id": "prj-002",
+        "name": "Finance Dashboard 2.0",
+        "description": "Real-time financial analytics dashboard for executive decision making.",
+        "owner": "Gordon Gekko",
+        "status": "In Development",
+        "image": "assets/finance-dash.png",
+        "metadata": {
+            "budget": "12M THB",
+            "startDate": "2025-03-01",
+            "department": "Finance"
+        },
+        "resources": [
+            {
+                "type": "link",
+                "name": "Staging URL",
+                "value": "https://finance-stg.innosoft.local",
+                "icon": "🌐"
+            },
+            {
+                "type": "server",
+                "name": "Analytics Engine",
+                "value": "192.168.20.15",
+                "icon": "🖥️"
+            },
+            {
+                "type": "git",
+                "name": "Repository",
+                "value": "git@github.com:innosoft/finance-dash.git",
+                "icon": "code"
+            }
+        ]
+    },
+    {
+        "id": "prj-003",
+        "name": "Customer Portal",
+        "description": "Self-service portal for customers to track orders and support tickets.",
+        "owner": "Tony Stark",
+        "status": "Maintenance",
+        "image": "assets/customer-portal.png",
+        "metadata": {
+            "budget": "3.5M THB",
+            "startDate": "2024-11-20",
+            "department": "Customer Success"
+        },
+        "resources": [
+            {
+                "type": "link",
+                "name": "Public URL",
+                "value": "https://portal.innosoft.com",
+                "icon": "🌐"
+            },
+            {
+                "type": "cloud",
+                "name": "AWS Cluster",
+                "value": "us-east-1",
+                "icon": "☁️"
+            },
+            {
+                "type": "doc",
+                "name": "API Documentation",
+                "value": "/docs/api-spec.html",
+                "icon": "📄"
+            }
+        ]
+    }
+]

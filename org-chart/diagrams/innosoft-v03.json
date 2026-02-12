@@ -4,11 +4,6 @@
         "under": null,
         "position": "Director"
     },
-    "พี่เอก": {
-        "level": 2,
-        "under": "บูม",
-        "position": "Vice Director"
-    },
     "พิม": {
         "level": 2,
         "under": "บูม",
@@ -18,6 +13,16 @@
         "level": 2,
         "under": "บูม",
         "position": "Vice Director"
+    },
+    "พี่เอก": {
+        "level": 2,
+        "under": "บูม",
+        "position": "Vice Director"
+    },
+    "พี่องุ่น": {
+        "level": 2,
+        "under": "บูม",
+        "position": "General Manager"
     },
     "ลูกตาล": {
         "level": 3,
@@ -32,6 +37,11 @@
     "พี่นิว": {
         "level": 4,
         "under": "พี่นึก",
+        "position": "Senior Software Engineer"
+    },
+    "อาร์มี่": {
+        "level": 4,
+        "under": "พี่ยิ่ง",
         "position": "Senior Software Engineer"
     },
     "จ้า": {
@@ -81,6 +91,24 @@
     "d": {
         "level": 6,
         "under": "พิม",
+        "position": "Student Associate",
+        "lineType": "dashed"
+    },
+    "e": {
+        "level": 6,
+        "under": "พี่ยิ่ง",
+        "position": "Student Associate",
+        "lineType": "dashed"
+    },
+    "f": {
+        "level": 6,
+        "under": "พี่นึก",
+        "position": "Student Associate",
+        "lineType": "dashed"
+    },
+    "g": {
+        "level": 6,
+        "under": "พี่นึก",
         "position": "Student Associate",
         "lineType": "dashed"
     }

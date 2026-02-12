@@ -14,6 +14,11 @@
         "under": "พี่เอก",
         "position": "Vice Director"
     },
+    "พี่องุ่น": {
+        "level": 2,
+        "under": "พี่เอก",
+        "position": "General Manager"
+    },
     "พิม": {
         "level": 3,
         "under": "บูม",
@@ -32,6 +37,11 @@
     "พี่นิว": {
         "level": 4,
         "under": "พี่นึก",
+        "position": "Senior Software Engineer"
+    },
+    "อาร์มี่": {
+        "level": 4,
+        "under": "พี่ยิ่ง",
         "position": "Senior Software Engineer"
     },
     "จ้า": {
