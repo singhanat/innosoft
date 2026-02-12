@@ -1,15 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Views
+    const listView = document.getElementById('project-list-view');
+    const detailView = document.getElementById('project-detail-view');
     const grid = document.getElementById('project-grid');
-    const modal = document.getElementById('project-modal');
-    const closeModalBtn = document.querySelector('.close-modal-btn');
+    const backBtn = document.getElementById('back-btn');
 
-    // Modal elements
-    const modalIcon = document.getElementById('modal-icon');
-    const modalTitle = document.getElementById('modal-title');
-    const modalStatus = document.getElementById('modal-status');
-    const modalDesc = document.getElementById('modal-description');
-    const modalMeta = document.getElementById('modal-metadata');
-    const modalResources = document.getElementById('modal-resources');
+    // Detail Elements
+    const detailIcon = document.getElementById('detail-icon');
+    const detailTitle = document.getElementById('detail-title');
+    const detailStatus = document.getElementById('detail-status');
+    const detailDesc = document.getElementById('detail-description');
+    const detailMeta = document.getElementById('detail-metadata');
+    const detailResources = document.getElementById('detail-resources');
+
+    // Breadcrumb
+    const breadcrumb = document.querySelector('.breadcrumb');
+    const originalBreadcrumbHTML = breadcrumb.innerHTML;
+
+    // Scroll Management
+    const contentArea = document.querySelector('.content-area');
+    let lastScrollPosition = 0;
 
     // Fetch Data
     fetch('data.json')
@@ -38,24 +48,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
 
-            card.addEventListener('click', () => openModal(project, icon));
+            card.addEventListener('click', () => showProjectDetail(project, icon));
             grid.appendChild(card);
         });
     }
 
-    function openModal(project, icon) {
-        modalIcon.innerHTML = icon;
-        modalTitle.textContent = project.name;
+    function showProjectDetail(project, icon) {
+        // Save scroll position
+        lastScrollPosition = contentArea.scrollTop;
+
+        // Populate Detail View
+        detailIcon.innerHTML = icon;
+        detailTitle.textContent = project.name;
 
         // Status Styling
-        modalStatus.textContent = project.status;
-        modalStatus.style.background = getStatusColor(project.status).bg;
-        modalStatus.style.color = getStatusColor(project.status).text;
+        detailStatus.textContent = project.status;
+        const statusColors = getStatusColor(project.status);
+        detailStatus.style.background = statusColors.bg;
+        detailStatus.style.color = statusColors.text;
 
-        modalDesc.textContent = project.description;
+        detailDesc.textContent = project.description;
 
         // Render Metadata
-        modalMeta.innerHTML = '';
+        detailMeta.innerHTML = '';
         if (project.metadata) {
             Object.entries(project.metadata).forEach(([key, value]) => {
                 const el = document.createElement('div');
@@ -64,12 +79,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span class="meta-label">${formatKey(key)}</span>
                     <span class="meta-value">${value}</span>
                 `;
-                modalMeta.appendChild(el);
+                detailMeta.appendChild(el);
             });
         }
 
         // Render Resources
-        modalResources.innerHTML = '';
+        detailResources.innerHTML = '';
         if (project.resources && project.resources.length > 0) {
             project.resources.forEach(res => {
                 const el = document.createElement('div');
@@ -84,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 el.innerHTML = `
                     <div class="res-left">
-                        <div class="res-icon">${res.icon || '📦'}</div>
+                        <div class="res-icon">${res.icon || '<i class="fa-solid fa-box"></i>'}</div>
                         <div class="res-info">
                             <span class="res-name">${res.name}</span>
                             <span class="res-value">${res.value}</span>
@@ -92,34 +107,41 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     ${actionHtml}
                 `;
-                modalResources.appendChild(el);
+                detailResources.appendChild(el);
             });
         } else {
-            modalResources.innerHTML = '<p class="text-muted">No resources linked.</p>';
+            detailResources.innerHTML = '<p class="text-muted">No resources linked.</p>';
         }
 
-        // Show Modal
-        modal.classList.remove('hidden');
-        // Small delay to allow display block to apply before opacity transition
-        setTimeout(() => {
-            modal.classList.add('active');
-        }, 10);
+        // Switch View
+        listView.classList.add('hidden');
+        detailView.classList.remove('hidden');
+
+        // Update Breadcrumb
+        breadcrumb.innerHTML = `
+            <span class="text-muted">Home</span>
+            <span class="separator">/</span>
+            <span class="text-muted" style="cursor:pointer;" onclick="document.getElementById('back-btn').click()">Projects Portal</span>
+            <span class="separator">/</span>
+            <span class="current">${project.name}</span>
+        `;
+
+        // Scroll to top
+        document.querySelector('.content-area').scrollTop = 0;
     }
 
-    function hideModal() {
-        modal.classList.remove('active');
-        setTimeout(() => {
-            modal.classList.add('hidden');
-        }, 200);
+    function showProjectList() {
+        detailView.classList.add('hidden');
+        listView.classList.remove('hidden');
+
+        // Reset Breadcrumb
+        breadcrumb.innerHTML = originalBreadcrumbHTML;
+
+        // Restore scroll position
+        contentArea.scrollTop = lastScrollPosition;
     }
 
-    closeModalBtn.addEventListener('click', hideModal);
-
-    window.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            hideModal();
-        }
-    });
+    backBtn.addEventListener('click', showProjectList);
 
     // Helper: Simple Icon Picker
     function getProjectIcon(name) {

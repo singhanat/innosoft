@@ -96,55 +96,58 @@
 
             <!-- Dashboard Content -->
             <div class="content-area">
-                <div class="page-header">
-                    <h2>Projects Overview</h2>
-                    <p>Centralized resource management for all ongoing initiatives.</p>
+                <!-- Project List View -->
+                <div id="project-list-view">
+                    <div class="page-header">
+                        <h2>Projects Overview</h2>
+                        <p>Centralized resource management for all ongoing initiatives.</p>
+                    </div>
+
+                    <div id="project-grid" class="project-grid">
+                        <!-- Projects injected here -->
+                    </div>
                 </div>
 
-                <div id="project-grid" class="project-grid">
-                    <!-- Projects injected here -->
+                <!-- Project Detail View -->
+                <div id="project-detail-view" class="project-detail-view hidden">
+                    <div class="detail-header">
+                        <button id="back-btn" class="back-btn">
+                            <i class="fa-solid fa-arrow-left"></i> Back to Projects
+                        </button>
+                        <div class="detail-title-wrap">
+                            <div class="detail-icon-box" id="detail-icon"></div>
+                            <div>
+                                <h2 id="detail-title">Project Name</h2>
+                                <span id="detail-status" class="status-pill">Status</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-body">
+                        <div class="detail-description">
+                            <h4 class="section-title">About</h4>
+                            <p id="detail-description"></p>
+                        </div>
+
+                        <div class="detail-grid">
+                            <div class="info-column">
+                                <h4 class="section-title">Details</h4>
+                                <div id="detail-metadata" class="metadata-list">
+                                    <!-- Metadata items injected here -->
+                                </div>
+                            </div>
+
+                            <div class="resources-column">
+                                <h4 class="section-title">Resources & Links</h4>
+                                <div id="detail-resources" class="resources-list">
+                                    <!-- Resources items injected here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
-    </div>
-
-    <!-- Project Detail Modal -->
-    <div id="project-modal" class="modal-overlay hidden">
-        <div class="modal-container">
-            <div class="modal-header">
-                <div class="modal-title-wrap">
-                    <div class="modal-icon-box" id="modal-icon"></div>
-                    <div>
-                        <h2 id="modal-title">Project Name</h2>
-                        <span id="modal-status" class="status-pill">Status</span>
-                    </div>
-                </div>
-                <button class="close-modal-btn">&times;</button>
-            </div>
-
-            <div class="modal-body">
-                <div class="modal-description">
-                    <h4 class="section-title">About</h4>
-                    <p id="modal-description"></p>
-                </div>
-
-                <div class="modal-grid">
-                    <div class="info-column">
-                        <h4 class="section-title">Details</h4>
-                        <div id="modal-metadata" class="metadata-list">
-                            <!-- Metadata items injected here -->
-                        </div>
-                    </div>
-
-                    <div class="resources-column">
-                        <h4 class="section-title">Resources & Links</h4>
-                        <div id="modal-resources" class="resources-list">
-                            <!-- Resources items injected here -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script src="app.js"></script>
