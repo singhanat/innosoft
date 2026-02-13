@@ -552,52 +552,154 @@ body {
     }
 }
 
-.detail-header {
+/* Clean Header Layout */
+.detail-header-clean {
+    display: flex;
+    gap: 24px;
     margin-bottom: 32px;
+    align-items: flex-start;
+}
+
+.header-left-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding-top: 4px;
+}
+
+.header-main-info {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 12px;
+    flex-grow: 1;
 }
 
-.back-btn {
-    align-self: flex-start;
+.title-row {
     display: flex;
     align-items: center;
-    gap: 8px;
-    background: white;
-    border: 1px solid var(--border-color);
-    padding: 8px 16px;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    font-weight: 500;
-    color: var(--text-muted);
-    transition: all 0.2s;
-    font-size: 0.9rem;
+    gap: 16px;
+    flex-wrap: wrap;
 }
 
-.back-btn:hover {
+#detail-title {
+    font-size: 1.75rem;
+    /* Larger Title */
+    margin: 0;
+}
+
+#detail-description {
+    font-size: 1rem;
+    color: var(--text-main);
+    /* Darker for better readability */
+    line-height: 1.6;
+    margin: 0;
+    max-width: 800px;
+}
+
+/* Metadata Text Row */
+/* Metadata Text Row */
+.meta-row-clean {
+    display: flex;
+    align-items: center;
+    /* Center alignment */
+    margin-left: 24px;
+    padding-left: 24px;
+    border-left: 2px solid #e2e8f0;
+    height: auto;
+}
+
+.metadata-item {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    line-height: normal;
+    white-space: nowrap;
+    /* Spacing between items */
+    margin-right: 24px;
+    padding-right: 24px;
+    border-right: 1px solid #e2e8f0;
+    /* Separator */
+}
+
+/* Remove border from last item */
+.metadata-item:last-child {
+    margin-right: 0;
+    padding-right: 0;
+    border-right: none;
+}
+
+/* Remove old pseudo-element separator */
+.metadata-item:not(:last-child)::after {
+    display: none;
+}
+
+.meta-label {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.meta-value {
+    font-weight: 600;
+    color: var(--text-main);
+    font-size: 1rem;
+}
+
+/* Hide unused */
+.detail-header-unified,
+.detail-content,
+.detail-top-line,
+.detail-meta-row,
+.desc-divider,
+.detail-info-card,
+.detail-header-row,
+.detail-title-wrapper,
+.about-block,
+.meta-block,
+.combined-info,
+.info-row,
+.metadata-grid {
+    display: none;
+    /* Safely hide old classes if they linger */
+}
+
+/* New Icon Back Button */
+.back-icon-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+}
+
+.back-icon-btn:hover {
     background: var(--bg-body);
     color: var(--primary-color);
-    border-color: var(--primary-color);
 }
 
-.detail-title-wrap {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-}
-
-.detail-icon-box {
-    width: 72px;
-    height: 72px;
-    font-size: 2.5rem;
+.detail-icon {
+    font-size: 2rem;
+    color: var(--primary-color);
+    width: 48px;
+    height: 48px;
     background: white;
-    border-radius: 16px;
+    border-radius: 12px;
+    /* Slightly squarer than before */
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: var(--shadow-sm);
-    color: var(--primary-color);
     border: 1px solid var(--border-color);
 }
 
@@ -630,22 +732,26 @@ body {
 }
 
 .section-title {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--text-muted);
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 8px;
-    margin-bottom: 24px;
+    margin-bottom: 8px;
+    /* Tighter */
     font-weight: 700;
     margin-top: 0;
+    border-bottom: none;
+    /* Removed line for cleaner look */
+    padding-bottom: 0;
 }
 
+/* Detail Description */
 .detail-description p {
-    font-size: 1.05rem;
-    line-height: 1.7;
+    font-size: 1rem;
+    line-height: 1.6;
     color: var(--text-main);
-    margin-bottom: 32px;
+    margin-bottom: 0;
+    /* Remove bottom margin */
 }
 
 .detail-body {
@@ -653,35 +759,32 @@ body {
     padding: 0;
     box-shadow: none;
     border: none;
-    max-width: 1000px;
-    /* Constrain width for readability */
-    margin: 0 auto;
+    width: 100%;
 }
 
 .detail-section {
     background: white;
-    padding: 32px;
+    padding: 24px;
+    /* Reduced from 32px */
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border-color);
+    margin-bottom: 24px;
+    /* Reduced spacing */
 }
 
-.combined-info {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
+/* Remove combined-info flex column */
+/* Resources Section to fill remaining space */
+.detail-section.resources-section {
+    margin-top: 0;
 }
 
-.details-divider {
-    height: 1px;
-    background: var(--border-color);
-    width: 100%;
-}
-
+/* Clean up old styles */
+.combined-info,
+.info-row,
 .metadata-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 32px;
+    display: none;
+    /* Safely hide old classes if they linger */
 }
 
 .detail-sidebar {

@@ -133,40 +133,30 @@
                 </div>
 
                 <!-- Project Detail View -->
-                <div id="project-detail-view" class="project-detail-view hidden">
-                    <div class="detail-header">
-                        <button id="back-btn" class="back-btn">
-                            <i class="fa-solid fa-arrow-left"></i> Back to Projects
-                        </button>
-                        <div class="detail-title-wrap">
-                            <div class="detail-icon-box" id="detail-icon"></div>
-                            <div>
-                                <h2 id="detail-title">Project Name</h2>
-                                <span id="detail-status" class="status-pill">Status</span>
+                <div id="project-detail-view" class="hidden">
+                    <div class="detail-header-clean">
+                        <div class="header-left-group">
+                            <button id="back-btn" class="back-icon-btn" title="Back to Projects">
+                                <i class="fa-solid fa-arrow-left"></i>
+                            </button>
+                            <div id="detail-icon" class="detail-icon"></div>
+                        </div>
+
+                        <div class="header-main-info">
+                            <div class="title-row">
+                                <h2 id="detail-title"></h2>
+                                <span id="detail-status" class="status-badge"></span>
+                                <div id="detail-metadata" class="meta-row-clean">
+                                    <!-- Metadata injected here -->
+                                </div>
                             </div>
+                            <p id="detail-description"></p>
                         </div>
                     </div>
 
                     <div class="detail-body">
-                        <!-- Top: Combined Info Card -->
-                        <div class="detail-section combined-info">
-                            <div class="about-block">
-                                <h4 class="section-title">About</h4>
-                                <p id="detail-description"></p>
-                            </div>
-
-                            <div class="details-divider"></div>
-
-                            <div class="meta-block">
-                                <h4 class="section-title">Details</h4>
-                                <div id="detail-metadata" class="metadata-grid">
-                                    <!-- Metadata injected here -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Bottom: Resources -->
-                        <div class="detail-section resources-section" style="margin-top: 32px;">
+                        <!-- Resources -->
+                        <div class="detail-section resources-section">
                             <h4 class="section-title">Resources & Links</h4>
                             <div class="resource-table-header">
                                 <span>TYPE</span>
