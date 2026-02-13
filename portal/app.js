@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let allProjects = [];
 
     // Fetch Data
-    fetch('data.json')
+    fetch('data/projects.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);

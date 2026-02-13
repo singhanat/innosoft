@@ -1,0 +1,115 @@
+{
+    "บูม": {
+        "level": 1,
+        "under": null,
+        "position": "Director"
+    },
+    "พิม": {
+        "level": 2,
+        "under": "บูม",
+        "position": "Vice Director"
+    },
+    "พี่ยิ่ง": {
+        "level": 2,
+        "under": "บูม",
+        "position": "Vice Director"
+    },
+    "พี่เอก": {
+        "level": 2,
+        "under": "บูม",
+        "position": "Vice Director"
+    },
+    "พี่องุ่น": {
+        "level": 2,
+        "under": "บูม",
+        "position": "General Manager"
+    },
+    "ลูกตาล": {
+        "level": 3,
+        "under": "พิม",
+        "position": "Head of Design"
+    },
+    "พี่นึก": {
+        "level": 3,
+        "under": "พี่ยิ่ง",
+        "position": "Head of Dev and Debug"
+    },
+    "พี่นิว": {
+        "level": 4,
+        "under": "พี่นึก",
+        "position": "Senior Software Engineer"
+    },
+    "อาร์มี่": {
+        "level": 4,
+        "under": "พี่ยิ่ง",
+        "position": "Senior Software Engineer"
+    },
+    "จ้า": {
+        "level": 4,
+        "under": "พิม",
+        "position": "Senior Software Engineer"
+    },
+    "บอส": {
+        "level": 4,
+        "under": "ลูกตาล",
+        "position": "Senior Software Engineer"
+    },
+    "ภัทร": {
+        "level": 5,
+        "under": "จ้า",
+        "position": "Software Engineer"
+    },
+    "นุ่น": {
+        "level": 5,
+        "under": "จ้า",
+        "position": "Software Engineer"
+    },
+    "สร": {
+        "level": 6,
+        "under": "บูม",
+        "position": "Student Associate",
+        "lineType": "dashed"
+    },
+    "a": {
+        "level": 6,
+        "under": "จ้า",
+        "position": "Student Associate",
+        "lineType": "dashed"
+    },
+    "b": {
+        "level": 6,
+        "under": "บอส",
+        "position": "Student Associate",
+        "lineType": "dashed"
+    },
+    "c": {
+        "level": 6,
+        "under": "ภัทร",
+        "position": "Student Associate",
+        "lineType": "dashed"
+    },
+    "d": {
+        "level": 6,
+        "under": "พิม",
+        "position": "Student Associate",
+        "lineType": "dashed"
+    },
+    "e": {
+        "level": 6,
+        "under": "พี่ยิ่ง",
+        "position": "Student Associate",
+        "lineType": "dashed"
+    },
+    "f": {
+        "level": 6,
+        "under": "พี่นึก",
+        "position": "Student Associate",
+        "lineType": "dashed"
+    },
+    "g": {
+        "level": 6,
+        "under": "พี่นึก",
+        "position": "Student Associate",
+        "lineType": "dashed"
+    }
+}
